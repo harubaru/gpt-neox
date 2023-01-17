@@ -30,32 +30,11 @@ from .gpt2_tokenization import GPT2Tokenizer
 
 def build_tokenizer(args):
     """Initialize tokenizer."""
+    args.tokenizer_type = "HFTokenizer"
     if args.rank == 0:
         print("> building {} tokenizer ...".format(args.tokenizer_type), flush=True)
 
-    # Select and instantiate the tokenizer.
-    if args.tokenizer_type.lower() == "GPT2BPETokenizer".lower():
-        assert args.vocab_file is not None
-        assert args.merge_file is not None
-        tokenizer = _GPT2BPETokenizer(args.vocab_file, args.merge_file)
-    elif args.tokenizer_type.lower() == "SPMTokenizer".lower():
-        assert args.vocab_file is not None
-        tokenizer = SentencePieceTokenizer(args.vocab_file)
-    elif args.tokenizer_type.lower() == "HFTokenizer".lower():
-        assert args.vocab_file is not None
-        tokenizer = HFTokenizer(args.vocab_file)
-    elif args.tokenizer_type.lower() == "HFGPT2Tokenizer".lower():
-        if args.vocab_file is None:
-            print(
-                "WARNING: No vocab file found, loading Huggingface's pretrained GPT2Tokenizer"
-            )
-        tokenizer = HFGPT2Tokenizer(args.vocab_file)
-    elif args.tokenizer_type.lower() == "CharLevelTokenizer".lower():
-        tokenizer = CharLevelTokenizer(vocab_size=512)
-    else:
-        raise NotImplementedError(
-            "{} tokenizer is not " "implemented.".format(args.tokenizer_type)
-        )
+    tokenizer = HFTokenizer('20B_tokenizer.json')
 
     # Add vocab size.
     args.padded_vocab_size = _vocab_size_with_padding(tokenizer.vocab_size, args)
