@@ -17,6 +17,14 @@
 
 """Processing data for pretraining."""
 
+import sys
+import collections
+if sys.version_info.major == 3 and sys.version_info.minor >= 10:
+    from collections.abc import MutableSet
+    collections.MutableSet = collections.abc.MutableSet
+else:
+    from collections import MutableSet
+
 import argparse
 import multiprocessing
 import os
@@ -46,17 +54,19 @@ class Encoder(object):
         Encoder.tokenizer = build_tokenizer(self.args)
 
     def encode(self, text):
-        if self.args.ftfy:
-            text = ftfy.fix_text(text)
         ids = {}
         for key in self.args.jsonl_keys:
-            doc_ids = []
-            text_ids = Encoder.tokenizer.tokenize(text)
-            if len(text_ids) > 0:
-                doc_ids.append(text_ids)
-            if self.args.append_eod:
-                doc_ids[-1].append(Encoder.tokenizer.eod)
-            ids[key] = doc_ids
+            with open('convo.txt', 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+                doc_ids = []
+                text_ids = []
+                for line in tqdm.tqdm(lines):
+                    text_ids.extend(Encoder.tokenizer.tokenize(line))
+                if len(text_ids) > 0:
+                    doc_ids.append(text_ids)
+                if self.args.append_eod:
+                    doc_ids[-1].append(Encoder.tokenizer.eod)
+                ids[key] = doc_ids
         return ids, len(text)
 
 
