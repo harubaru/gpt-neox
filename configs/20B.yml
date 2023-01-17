@@ -4,12 +4,12 @@
 
 {
   # Tokenizer /  checkpoint settings - you will need to change these to the location you have them saved in
-  "vocab-file": "./20B_checkpoints/20B_tokenizer.json",
-  "save": "./20B_checkpoints",
-  "load": "./20B_checkpoints",
+  "vocab-file": "/mnt/gpt-storage/20B_tokenizer.json",
+  "save": "/mnt/gpt-storage/weights/20B_checkpoints",
+  "load": "/mnt/gpt-storage/weights/20B_checkpoints",
 
   # If finetuning, edit the following to the location of your finetuning dataset:
-  "data-path": "./data/pile_20B_tokenizer/pile_20B_tokenizer_text_document",
+  "data-path": "/mnt/gpt-storage/data/convo_text_document",
 
   # parallelism settings ( you will want to change these based on your cluster setup, ideally scheduling pipeline stages
   # across the node boundaries )
@@ -39,13 +39,13 @@
   "optimizer": {
     "type": "Adam",
     "params": {
-      "lr": 0.97e-4,
+      "lr": 0.97e-5,
       "betas": [0.9, 0.95],
       "eps": 1.0e-8,
       }
       },
 
-  "min_lr": 0.97e-5,
+  "min_lr": 0.97e-6,
 
   # for all zero_optimization options, see https://www.deepspeed.ai/docs/config-json/#zero-optimizations-for-fp16-training
   "zero_optimization": {
@@ -94,8 +94,8 @@
   "distributed-backend": "nccl",
   "lr-decay-style": "cosine",
   "warmup": 0.01,
-  "checkpoint-factor": 500, # this variable previously called `save-interval`
-  "eval-interval": 1000,
+  "checkpoint-factor": 1000, # this variable previously called `save-interval`
+  "eval-interval": 2000,
   "eval-iters": 10,
 
   # logging
@@ -105,7 +105,7 @@
 
   ### NEW DATA: ####
   "tokenizer_type": "HFTokenizer",
-  "tensorboard-dir": "./tensorboard",
-  "log-dir": "./logs",
+  "tensorboard-dir": "/mnt/gpt-storage/tensorboard",
+  "log-dir": "/mnt/gpt-storage/logs",
 
 }
