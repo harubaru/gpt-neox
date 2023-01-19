@@ -9,12 +9,12 @@
   "load": "/mnt/gpt-storage/weights/20B_checkpoints",
 
   # If finetuning, edit the following to the location of your finetuning dataset:
-  "data-path": "/mnt/gpt-storage/data/convo_text_document",
+  "data-path": "/mnt/gpt-storage/datasets/convo_text_document",
 
   # parallelism settings ( you will want to change these based on your cluster setup, ideally scheduling pipeline stages
   # across the node boundaries )
-  "pipe-parallel-size": 4,
-  "model-parallel-size": 2,
+  "pipe-parallel-size": 8,
+  "model-parallel-size": 1,
 
   # model settings
   "num-layers": 44,
@@ -94,8 +94,8 @@
   "distributed-backend": "nccl",
   "lr-decay-style": "cosine",
   "warmup": 0.01,
-  "checkpoint-factor": 1000, # this variable previously called `save-interval`
-  "eval-interval": 2000,
+  "checkpoint-factor": 2500, # this variable previously called `save-interval`
+  "eval-interval": 2500,
   "eval-iters": 10,
 
   # logging
