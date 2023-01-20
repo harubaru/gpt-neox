@@ -4,4 +4,8 @@
         "tokenizer_type": "HFTokenizer",
         "tensorboard-dir": "/mnt/gpt-storage/tensorboard",
         "log-dir": "/mnt/gpt-storage/logs"
+        "wandb_team": "haruu",
+        "wandb_project": "pythia",
+        "wandb_group": "13B dedupe",
+        "finetune": "false",
 }
