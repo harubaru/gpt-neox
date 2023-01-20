@@ -106,17 +106,8 @@ class AnnealingLR(object):
     def _check_and_set(self, cls_value, sd_value, name):
         """Auxiliary function for checking the values in the checkpoint and
         setting them."""
-        if self.override_lr_scheduler:
-            print_rank_0(" > overriding {} value to {}".format(name, cls_value))
-            return cls_value
-
-        if not self.use_checkpoint_lr_scheduler:
-            assert cls_value == sd_value, (
-                "AnnealingLR: class input value"
-                "and checkpoint values for {} do not match".format(name)
-            )
-        print_rank_0(" > using checkpoint value {} for {}".format(sd_value, name))
-        return sd_value
+        print_rank_0(" > overriding {} value to {}".format(name, cls_value))
+        return cls_value
 
     def load_state_dict(self, sd):
 
