@@ -13,8 +13,8 @@
 
   # parallelism settings ( you will want to change these based on your cluster setup, ideally scheduling pipeline stages
   # across the node boundaries )
-  "pipe-parallel-size": 8,
-  "model-parallel-size": 1,
+  "pipe-parallel-size": 0,
+  "model-parallel-size": 8,
 
   # model settings
   "num-layers": 44,
@@ -36,38 +36,42 @@
   "output_layer_init_method": "wang_init",
 
   # optimizer settings
+  "zero_allow_untested_optimizer": true,
   "optimizer": {
-    "type": "Adam",
+    "type": "OneBitAdam",
     "params": {
       "lr": 0.97e-5,
       "betas": [0.9, 0.95],
       "eps": 1.0e-8,
+      "cuda_aware": false,
+      "comm_backend_name": "nccl"
       }
-      },
+  },
 
   "min_lr": 0.97e-6,
 
   # for all zero_optimization options, see https://www.deepspeed.ai/docs/config-json/#zero-optimizations-for-fp16-training
   "zero_optimization": {
-  "stage": 1,
+  "stage": 3,
   "allgather_partitions": True,
   "allgather_bucket_size": 1260000000,
   "overlap_comm": True,
   "reduce_scatter": True,
   "reduce_bucket_size": 1260000000,
   "contiguous_gradients": True,
+  "cpu_offload": True,
   },
 
   # batch / data settings (assuming 96 GPUs)
-  "train_micro_batch_size_per_gpu": 4,
-  "gradient_accumulation_steps": 32,
+  "train_micro_batch_size_per_gpu": 1,
+  "gradient_accumulation_steps": 1,
   "data-impl": "mmap",
   "split": "995,4,1",
 
   # activation checkpointing
   "checkpoint-activations": true,
   "checkpoint-num-layers": 1,
-  "partition-activations": false,
+  "partition-activations": true,
   "synchronize-each-layer": true,
 
   # regularization
