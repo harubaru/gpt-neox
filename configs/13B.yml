@@ -8,17 +8,18 @@
    "model-parallel-size": 8,
 
    # model settings
-   "num-layers": 40,
+   "num-layers": 36,
    "hidden-size": 5120,
    "num-attention-heads": 40,
    "seq-length": 2048,
    "max-position-embeddings": 2048,
    "norm": "layernorm",
    "pos-emb": "rotary",
+   "rotary_pct": 0.25,
    "no-weight-tying": true,
-   "gpt_j_residual": false,
+   "gpt_j_residual": true,
    "output_layer_parallelism": "column",
-   
+
    "zero_allow_untested_optimizer": true,
    "use-bnb-optimizer": true,
 
@@ -35,7 +36,7 @@
    "optimizer": {
      "type": "Adam",
      "params": {
-       "lr": 0.0001,
+       "lr": 1.0e-5,
        "betas": [0.9, 0.95],
        "eps": 1.0e-8,
      }
@@ -51,7 +52,7 @@
     "reduce_bucket_size": 500000000,
     "contiguous_gradients": True,
   },
-   "min_lr": 0.00001,
+   "min_lr": 1.0e-6,
 
    # batch / data settings
    "train_micro_batch_size_per_gpu": 4,
@@ -80,12 +81,12 @@
    },
 
    # misc. training settings
-   "train-iters": 320000,
+   "train-iters": 45000,
    "lr-decay-iters": 320000,
    "distributed-backend": "nccl",
    "lr-decay-style": "cosine",
    "warmup": 0.01,
-   "checkpoint-factor": 10000,
+   "checkpoint-factor": 5000,
    "eval-interval": 1000,
    "eval-iters": 10,
 
