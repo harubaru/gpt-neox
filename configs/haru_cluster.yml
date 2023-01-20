@@ -1,0 +1,7 @@
+{
+        "vocab-file": "/mnt/gpt-storage/20B_tokenizer.json",
+        "data-path": "/mnt/gpt-storage/datasets/convo_text_document",
+        "tokenizer_type": "HFTokenizer",
+        "tensorboard-dir": "/mnt/gpt-storage/tensorboard",
+        "log-dir": "/mnt/gpt-storage/logs"
+}
